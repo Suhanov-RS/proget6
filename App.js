@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet} from 'react-native';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import MainStack from './navigate';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
+
+const fonts = () => Font.loadAsync({
+  'mt-bold': require('./assets/Poppins-Black.ttf'),
+  'mt-light': require('./assets/Poppins-ExtraLightItalic.ttf')
+});
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [font, setFont] = useState(false);
+
+  if(font) {
+    return (
+      <MainStack/>
+    );
+  } else {
+    return (
+      <AppLoading 
+        startAsync = {fonts} 
+        onFinish = {() => setFont(true)} 
+        onError = {console.warn}/>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  
 });
